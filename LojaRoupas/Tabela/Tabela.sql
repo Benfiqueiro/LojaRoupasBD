@@ -14,21 +14,21 @@ ds_Senha char(6) not null
 );
 
 
-create table no_Telefone(
+create table tbl_telefone(
 cd_Cliente int,
 no_Telefone varchar(11),
 CONSTRAINT foreign key(cd_Cliente) references tbl_cliente(cd_Cliente)
 );
 
 
-create table tbl_CliJuri(
+create table tbl_pf(
 cd_Cliente int,
 no_CNPJ varchar(14) not null,
 CONSTRAINT foreign key(cd_Cliente) references tbl_cliente(cd_Cliente)
 );
 
 
-create table tbl_CliFi(
+create table tbl_pj(
 cd_Cliente int,
 no_CPF varchar(11) not null,
 CONSTRAINT foreign key(cd_Cliente) references tbl_cliente(cd_Cliente)
