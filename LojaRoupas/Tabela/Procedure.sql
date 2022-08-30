@@ -112,6 +112,7 @@ in pno_CNPJ varchar(14),
 in pno_telefone varchar(11)
 )
 begin
+-- Variavel para guardar o codigo do cliente 
 declare vCod int;
 if(pPessoa='F')then
 	insert into tbl_cliente(nm_Cliente,nm_logradouro,no_logradouro,ds_Complemento,nm_Bairro,nm_Login,ds_Senha,ds_status)values(pnm_Cliente,pnm_Logradouro,pno_Logradouro,pds_Complemento,pnm_Bairro,pnm_Login,pds_Senha,pds_status);
@@ -133,4 +134,12 @@ call sp_InsCli('F','Juliano Souza','Rua Camargo Coelho','570','','Vila Ipojuca',
 
 desc tbl_Cliente;
 
+/*Fazer truncate com chave estrangeira*/
+SET FOREIGN_KEY_CHECKS = 0;
 
+TRUNCATE tbl_Cliente;
+TRUNCATE tbl_PF;
+TRUNCATE tbl_PJ;
+TRUNCATE tbl_TelefoneCli;
+
+SET FOREIGN_KEY_CHECKS = 1;
