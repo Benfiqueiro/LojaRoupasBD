@@ -113,8 +113,13 @@ in pno_telefone varchar(11)
 )
 begin
 -- Variavel para guardar o codigo do cliente 
-declare vCod int;
-if(pPessoa='F')then
+	declare vCod int;
+    /*Criação da variavel para verificar se existi um erro*/
+    declare erro_sql tinyint default false;
+    declare continue handler for sqlexception set erro_sql = true;
+    start transaction;
+    
+	if(pPessoa='F')then
 	insert into tbl_cliente(nm_Cliente,nm_logradouro,no_logradouro,ds_Complemento,nm_Bairro,nm_Login,ds_Senha,ds_status)values(pnm_Cliente,pnm_Logradouro,pno_Logradouro,pds_Complemento,pnm_Bairro,pnm_Login,pds_Senha,pds_status);
     set vCod=last_insert_id();
     insert into tbl_pf(cd_Cliente,no_Cpf) values(vCod,pno_CPF);
@@ -125,6 +130,14 @@ if(pPessoa='F')then
     insert into tbl_pj(cd_cliente,no_CNPJ) values(vCod,pno_CNPJ);
 	insert into tbl_Telefone(cd_cliente,no_Telefone) values(vCod,pno_telefone);
     end if;
+    /* Condição para fazer a verificação se existi erro ou não dentro dos comandos da procedure*/
+    if(erro_sql = false) then
+		commit;
+        select 'Transação executada com Suceesso' as resultado;
+	else
+		rollback;
+        select 'Ocorreu um erro ao executar a transação' as resultado;
+	end if;
 end$$ 
 delimiter ;
 
